@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { RolesModule } from './roles/roles.module';
+import { UsersModule } from './users/users.module';
 
 /**
  * This is the main application module. It contains the root of the application's
@@ -17,6 +18,7 @@ import { RolesModule } from './roles/roles.module';
     }),
     DatabaseModule,
     RolesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
