@@ -8,9 +8,9 @@ datasource db {
 }
 
 model Roles {
-  role_id   Int     @id @default(autoincrement()) @map("role_id")
-  role_name String  @unique @map("role_name") @db.VarChar(100)
-  users     Users[]
+  roleId   Int     @id @default(autoincrement()) @map("role_id")
+  roleName String  @unique @map("role_name") @db.VarChar(100)
+  users    Users[]
 
   @@map("m_roles")
 }
@@ -21,7 +21,7 @@ model Users {
   password String   @map("password") @db.VarChar(128)
   username String   @map("username") @db.VarChar(100)
   roleId   Int      @map("role_id")
-  role     Roles    @relation(fields: [roleId], references: [role_id])
+  role     Roles    @relation(fields: [roleId], references: [roleId])
   tokens   Tokens[]
 
   createAt  DateTime @default(now()) @map("create_at") @db.Timestamptz
