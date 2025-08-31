@@ -1,7 +1,8 @@
-import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { DatabaseModule } from './database/database.module';
 
 /**
  * This is the main application module. It contains the root of the application's
@@ -13,6 +14,7 @@ import { AppService } from './app.service';
     ConfigModule.forRoot({
       envFilePath: ['.env'],
     }),
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
