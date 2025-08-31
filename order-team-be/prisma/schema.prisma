@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Roles {
+  role_id   Int     @id @default(autoincrement()) @map("role_id")
+  role_name String  @unique @map("role_name") @db.VarChar(100)
+  users     Users[]
+
+  @@map("m_roles")
+}
+
+model Users {
+  userId   Int      @id @default(autoincrement()) @map("user_id")
+  email    String   @unique @map("email") @db.VarChar(255)
+  password String   @map("password") @db.VarChar(128)
+  username String   @map("username") @db.VarChar(100)
+  roleId   Int      @map("role_id")
+  role     Roles    @relation(fields: [roleId], references: [role_id])
+  tokens   Tokens[]
+
+  createAt  DateTime @default(now()) @map("create_at") @db.Timestamptz
+  createBy  Int      @map("create_by")
+  updateAt  DateTime @default(now()) @updatedAt @map("update_at") @db.Timestamptz
+  updateBy  Int      @map("update_by")
+  isDeleted Boolean  @default(false) @map("is_deleted")
+
+  @@map("users")
+}
+
+model Tokens {
+  tokenId          Int      @id @default(autoincrement()) @map("token_id")
+  userId           Int      @map("user_id")
+  user             Users    @relation(fields: [userId], references: [userId])
+  token            String   @map("token") @db.VarChar(512)
+  refreshToken     String   @map("refresh_token") @db.VarChar(512)
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+  expiredAt        DateTime @map("expired_at") @db.Timestamptz
+  refreshExpiredAt DateTime @map("refresh_expired_at") @db.Timestamptz
+  revoked          Boolean  @default(false) @map("revoked")
+  agent            String   @map("agent") @db.VarChar(255)
+  ip               String   @map("ip") @db.VarChar(45)
+
+  @@map("tokens")
+}
